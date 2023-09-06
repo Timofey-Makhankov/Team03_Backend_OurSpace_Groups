@@ -52,7 +52,7 @@ public class WebSecurityConfig {
                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                .csrf(csrf -> csrf.disable())
-            .formLogin().and()
+            //.formLogin().and()
             .build();
   }
 
