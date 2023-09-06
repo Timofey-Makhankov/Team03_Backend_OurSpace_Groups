@@ -3,6 +3,9 @@ package com.example.demo.domain.user;
 import com.example.demo.core.generic.AbstractService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
+import java.util.UUID;
+
 public interface UserService extends UserDetailsService, AbstractService<User> {
   User register(User user);
 
