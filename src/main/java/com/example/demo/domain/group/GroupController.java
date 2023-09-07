@@ -1,6 +1,10 @@
 package com.example.demo.domain.group;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.domain.group.dto.GroupDTO;
+import com.example.demo.domain.group.dto.GroupMapper;
+import com.example.demo.domain.user.dto.UserDTO;
+import com.example.demo.domain.user.dto.UserMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,43 +17,48 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "/group")
 public class GroupController {
-
-    private GroupService groupService;
-
-    @Autowired
-    public GroupController(GroupService groupService) {
+    private final GroupService groupService;
+    private final GroupMapper groupMapper;
+    private final UserMapper userMapper;
+    public GroupController(GroupService groupService, GroupMapper groupMapper, UserMapper userMapper) {
         this.groupService = groupService;
+        this.groupMapper = groupMapper;
+        this.userMapper = userMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<Group>> getAllGroups() {
-        return ResponseEntity.ok().body(groupService.findAll());
+    public ResponseEntity<List<GroupDTO>> getAllGroups() {
+        return ResponseEntity.ok().body(groupMapper.toDTOs(groupService.findAll()));
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<GroupDTO> getGroupById(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok().body(groupMapper.toDTO(groupService.findById(id)));
+    }
 
-    @GetMapping(path = "/{uuid}")
-    public ResponseEntity<Group> getGroupById(@PathVariable("uuid") UUID id) throws GroupNotFoundException{
-        return ResponseEntity.ok().body(groupService.findById(id));
+    @GetMapping("/{id}/members/")
+    public ResponseEntity<List<UserDTO>> getMembersFromGroupId(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok().body(userMapper.toDTOs(groupService.getAllUsersInGroup(id)));
     }
 
     @PostMapping
-    public void postTank(@RequestBody Group newGroup) {
-        groupService.save(newGroup);
+    public ResponseEntity<GroupDTO> createGroup(@RequestBody GroupDTO newGroup) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(groupMapper.toDTO(groupService.save(groupMapper.fromDTO(newGroup))));
     }
 
-    @DeleteMapping(path = "/{uuid}")
-    public void deleteTank(@PathVariable("uuid") UUID id) throws GroupNotFoundException {
+    @DeleteMapping(path = "/{id}")
+    public void deleteGroup(@PathVariable("id") UUID id) {
         groupService.deleteById(id);
     }
 
-    @PutMapping(path = "/{uuid}")
-    public void updateTank(@PathVariable("uuid") UUID id, @RequestBody Group newGroup) throws GroupNotFoundException {
-        groupService.updateById(id, newGroup);
+    @PutMapping(path = "/{id}")
+    public void updateGroup(@PathVariable("id") UUID id, @RequestBody GroupDTO newGroup) {
+        groupService.updateById(id, groupMapper.fromDTO(newGroup));
     }
 
-    @ExceptionHandler(GroupNotFoundException.class)
-    public ResponseEntity<String> handleTankNotFoundException(GroupNotFoundException e) {
-        return ResponseEntity.status(404).body("Group not found.");
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The Model was not able to be found");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

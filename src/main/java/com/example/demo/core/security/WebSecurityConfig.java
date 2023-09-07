@@ -2,6 +2,7 @@ package com.example.demo.core.security;
 
 import com.example.demo.core.security.helpers.JwtProperties;
 import com.example.demo.domain.user.UserService;
+import com.example.demo.domain.user.dto.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +24,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
@@ -32,12 +31,14 @@ public class WebSecurityConfig {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtProperties jwtProperties;
+    private final UserMapper userMapper;
 
     @Autowired
-    public WebSecurityConfig(UserService userService, PasswordEncoder passwordEncoder, JwtProperties jwtProperties) {
+    public WebSecurityConfig(UserService userService, PasswordEncoder passwordEncoder, JwtProperties jwtProperties, UserMapper userMapper) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.jwtProperties = jwtProperties;
+        this.userMapper = userMapper;
     }
 
     @Bean
@@ -48,7 +49,7 @@ public class WebSecurityConfig {
                                 .anyRequest().permitAll()
                 )
                 .addFilterAfter(new JWTAuthenticationFilter(new AntPathRequestMatcher("/user/login", "POST"),
-                        authenticationManager(), jwtProperties), UsernamePasswordAuthenticationFilter.class)
+                        authenticationManager(), jwtProperties, userMapper), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(new JWTAuthorizationFilter(userService, jwtProperties),
                         UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
