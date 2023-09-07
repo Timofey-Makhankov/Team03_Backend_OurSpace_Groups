@@ -1,7 +1,7 @@
 package com.example.demo.domain.group.dto;
 
 import com.example.demo.core.generic.AbstractDTO;
-import com.example.demo.domain.user.User;
+import com.example.demo.domain.user.dto.UserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,9 +20,9 @@ public class GroupDTO extends AbstractDTO {
     private String description;
     private String motto;
     private String logo;
-    private List<User> users;
+    private List<UserDTO> users;
 
-    public GroupDTO(UUID id, String name, String description, String motto, String logo, List<User> users) {
+    public GroupDTO(UUID id, String name, String description, String motto, String logo, List<UserDTO> users) {
         super(id);
         this.name = name;
         this.description = description;
