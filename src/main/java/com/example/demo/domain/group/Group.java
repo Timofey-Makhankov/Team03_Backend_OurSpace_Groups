@@ -3,21 +3,21 @@ package com.example.demo.domain.group;
 import com.example.demo.core.generic.AbstractEntity;
 import com.example.demo.domain.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
+@Log4j2
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "groups")
 public class Group extends AbstractEntity {
 
-    @NotNull
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description")
@@ -32,4 +32,35 @@ public class Group extends AbstractEntity {
     @Column(name = "members")
     @OneToMany(fetch = FetchType.EAGER)
     private List<User> users;
+
+    @PrePersist
+    public void logNewGroupAttempt() {
+        log.trace("Attempting to add new group");
+    }
+
+    @PostPersist
+    public void logNewGroupAdded() {
+        log.debug("Created Group with Id: " + super.getId());
+    }
+
+    @PreRemove
+    public void logGroupRemovalAttempt() {
+        log.trace("Tried to delete Group with Id: " + super.getId());
+    }
+
+    @PostRemove
+    public void logGroupRemoval() {
+        log.debug("Deleted Group with Id: " + super.getId());
+    }
+
+    @PreUpdate
+    public void logGroupUpdateAttempt() {
+        log.trace("Tried to update Group with Id: " + super.getId());
+    }
+
+    @PostUpdate
+    public void logGroupUpdated() {
+        log.debug("Group has been updated with Id: " + super.getId());
+    }
+
 }

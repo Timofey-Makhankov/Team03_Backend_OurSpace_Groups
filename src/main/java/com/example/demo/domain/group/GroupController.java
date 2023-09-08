@@ -2,11 +2,7 @@ package com.example.demo.domain.group;
 
 import com.example.demo.domain.group.dto.GroupDTO;
 import com.example.demo.domain.group.dto.GroupMapper;
-import com.example.demo.domain.user.dto.UserDTO;
-import com.example.demo.domain.user.dto.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.data.domain.Page;
-import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,19 +25,19 @@ public class GroupController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('GROUP_DEFAULT')")
+    @PreAuthorize("hasAuthority('GROUP_READ_ALL')")
     public ResponseEntity<List<GroupDTO>> getAllGroups() {
         return ResponseEntity.ok().body(groupMapper.toDTOs(groupService.findAll()));
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasRole('ADMIN') or @userPermissionEvaluator.isInGroup(authentication.principal.user, id)")
+    @PreAuthorize("hasAuthority('GROUP_READ') or @userPermissionEvaluator.isInGroup(authentication.principal.user, id)")
     public ResponseEntity<GroupDTO> getGroupById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok().body(groupMapper.toDTO(groupService.findById(id)));
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('GROUP_MODIFY')")
+    @PreAuthorize("hasAuthority('GROUP_CREATE')")
     public ResponseEntity<GroupDTO> createGroup(@RequestBody GroupDTO newGroup) {
         return ResponseEntity.status(HttpStatus.CREATED).body(groupMapper.toDTO(groupService.save(groupMapper.fromDTO(newGroup))));
     }
@@ -59,8 +55,8 @@ public class GroupController {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFoundException() {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The Model was not able to be found");
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException enfe) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(enfe.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

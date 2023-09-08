@@ -13,14 +13,15 @@ import java.util.UUID;
 @Component
 @NoArgsConstructor
 public class UserPermissionEvaluator {
-  public boolean isSameUSer(User principal, UserDTO userDTO) {
-    return principal.getEmail().equals(userDTO.getEmail());
-  }
+    public boolean isSameUSer(User principal, UserDTO userDTO) {
+        return principal.getEmail().equals(userDTO.getEmail());
+    }
 
-  public boolean isSameUser(User principal, UUID id) {
-    return principal.getId().equals(id);
-  }
-  public boolean isInGroup(User principal, UUID groupId) {
-    return principal.getGroup().getId().equals(groupId);
-  }
+    public boolean isSameUser(User principal, UUID id) {
+        return principal.getId().equals(id);
+    }
+
+    public boolean isInGroup(User principal, UUID groupId) {
+        return principal.getGroup().getId().equals(groupId);
+    }
 }

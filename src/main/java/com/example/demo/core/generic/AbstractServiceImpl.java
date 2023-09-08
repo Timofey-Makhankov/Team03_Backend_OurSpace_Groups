@@ -6,9 +6,11 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+@Log4j2
 @AllArgsConstructor
 public abstract class AbstractServiceImpl<T extends AbstractEntity> implements AbstractService<T> {
 

@@ -13,20 +13,20 @@ import java.util.UUID;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper extends AbstractMapper<User, UserDTO> {
-  User fromUserRegisterDTO(UserRegisterDTO dto);
+    User fromUserRegisterDTO(UserRegisterDTO dto);
 
-  @Override
-  @Mapping(source = "group", target = "group_id", qualifiedByName = "idFromGroup")
-  @Mapping(source = "group", target = "group_name", qualifiedByName = "nameFromGroup")
-  UserDTO toDTO(User user);
+    @Override
+    @Mapping(source = "group", target = "group_id", qualifiedByName = "idFromGroup")
+    @Mapping(source = "group", target = "group_name", qualifiedByName = "nameFromGroup")
+    UserDTO toDTO(User user);
 
-  @Named("idFromGroup")
-  default UUID idFromGroup(Group group){
-    return group.getId();
-  }
+    @Named("idFromGroup")
+    default UUID idFromGroup(Group group) {
+        return group.getId();
+    }
 
-  @Named("nameFromGroup")
-  default String nameFromGroup (Group group){
-    return group.getName();
-  }
+    @Named("nameFromGroup")
+    default String nameFromGroup(Group group) {
+        return group.getName();
+    }
 }

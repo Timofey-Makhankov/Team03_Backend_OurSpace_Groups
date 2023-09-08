@@ -9,15 +9,15 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Map;
 
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 @Accessors(chain = true)
 public class ResponseError implements Serializable {
-  private LocalDate timeStamp;
-  private Map<String, String> errors;
+    private LocalDate timeStamp;
+    private Map<String, String> errors;
 
-  public ResponseError build() {
-    return this;
-  }
+    public ResponseError build() {
+        return this;
+    }
 }

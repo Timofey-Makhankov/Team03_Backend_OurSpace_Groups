@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends AbstractRepository<User> {
-  Optional<User> findByEmail(String email);
-  Page<User> findAllByGroup_Id(UUID group_id, Pageable pageable);
+    Optional<User> findByEmail(String email);
+
+    Page<User> findAllByGroup_Id(UUID group_id, Pageable pageable);
 }
