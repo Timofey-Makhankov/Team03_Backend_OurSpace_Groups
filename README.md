@@ -1,6 +1,26 @@
-# README
+# üK 233 Backend & Database
 
-## Starter Project Spring Boot
+This is the backend Repo of the Project. We are using Springboot and Java as our primary Language. The Database is a docker image with the default configurations. The Testing will be done with postman, a HTTP Request Client.
+
+## Prerequisites
+
+You should have these software installed:
+
+- [Docker](https://docs.docker.com/engine/install/)
+- an IDE, in this project we use [Intellij](https://www.jetbrains.com/help/idea/installation-guide.html)
+
+### Docker command
+```
+docker run --name postgres_db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
+```
+
+The Docker Container should start automatically. You can verify with:
+
+```
+docker ps
+```
+
+There should be able to see with the name "postgres_db"
 
 ### Clone the Project
 
@@ -17,11 +37,6 @@ On the Top Right press the Gradle Tab (Elephant Icon) and under Tasks/applicatio
 
 ![Press bootRun Button](./Images/Screenshot%202023-09-07%20111017.png)
 
-### Docker command
-```
-docker run --name postgres_db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
-```
-
 ### Troubleshooting
 
 If it tells you, that port 8080 is in use. It might help to disable Mobile Hotspot on host device
@@ -29,4 +44,4 @@ If it tells you, that port 8080 is in use. It might help to disable Mobile Hotsp
 ```
 org.postgresql.util.PSQLException: ERROR: relation "role_authority" does not exist
 ```
-Simply restart the application. Hibernate sometimes does not initialize the tables fast enough an causes thios error. restarting the application fixes this.
+Simply restart the application. Hibernate sometimes does not initialize the tables fast enough an causes this error. restarting the application fixes this.
