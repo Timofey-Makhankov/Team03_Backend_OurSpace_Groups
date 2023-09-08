@@ -2,6 +2,8 @@ package com.example.demo.domain.user;
 
 import com.example.demo.core.generic.AbstractServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,6 +42,11 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
   public User registerUser(User user){
     user.setPassword(getRandomSpecialChars(20).toString());
     return save(user);
+  }
+
+  @Override
+  public List<User> getAllUsersByGroupId(UUID id, Pageable pageable) {
+    return ((UserRepository) repository).findAllByGroup_Id(id, pageable).getContent();
   }
 
   public Stream<Character> getRandomSpecialChars(int count) {

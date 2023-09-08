@@ -5,8 +5,11 @@ import com.example.demo.domain.group.dto.GroupMapper;
 import com.example.demo.domain.user.dto.UserDTO;
 import com.example.demo.domain.user.dto.UserMapper;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,39 +22,38 @@ import java.util.UUID;
 public class GroupController {
     private final GroupService groupService;
     private final GroupMapper groupMapper;
-    private final UserMapper userMapper;
-    public GroupController(GroupService groupService, GroupMapper groupMapper, UserMapper userMapper) {
+
+    public GroupController(GroupService groupService, GroupMapper groupMapper) {
         this.groupService = groupService;
         this.groupMapper = groupMapper;
-        this.userMapper = userMapper;
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('GROUP_DEFAULT')")
     public ResponseEntity<List<GroupDTO>> getAllGroups() {
         return ResponseEntity.ok().body(groupMapper.toDTOs(groupService.findAll()));
     }
 
     @GetMapping(path = "/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @userPermissionEvaluator.isInGroup(authentication.principal.user, id)")
     public ResponseEntity<GroupDTO> getGroupById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok().body(groupMapper.toDTO(groupService.findById(id)));
     }
 
-    @GetMapping("/{id}/members/")
-    public ResponseEntity<List<UserDTO>> getMembersFromGroupId(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok().body(userMapper.toDTOs(groupService.getAllUsersInGroup(id)));
-    }
-
     @PostMapping
+    @PreAuthorize("hasAuthority('GROUP_MODIFY')")
     public ResponseEntity<GroupDTO> createGroup(@RequestBody GroupDTO newGroup) {
         return ResponseEntity.status(HttpStatus.CREATED).body(groupMapper.toDTO(groupService.save(groupMapper.fromDTO(newGroup))));
     }
 
     @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasAuthority('GROUP_DELETE')")
     public void deleteGroup(@PathVariable("id") UUID id) {
         groupService.deleteById(id);
     }
 
     @PutMapping(path = "/{id}")
+    @PreAuthorize("hasAuthority('GROUP_MODIFY')")
     public void updateGroup(@PathVariable("id") UUID id, @RequestBody GroupDTO newGroup) {
         groupService.updateById(id, groupMapper.fromDTO(newGroup));
     }
