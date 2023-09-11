@@ -2,6 +2,9 @@ package com.example.demo.domain.group.dto;
 
 import com.example.demo.core.generic.AbstractDTO;
 import com.example.demo.domain.user.dto.UserDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +20,20 @@ import java.util.UUID;
 @Setter
 @Accessors(chain = true)
 public class GroupDTO extends AbstractDTO {
+
+    @NotBlank
+    @Size(min = 1, max = 255)
     private String name;
-    private String description;
-    private String motto;
-    private String logo;
+
+    @Size(max = 512)
+    private String description = "";
+
+    @Size(min = 1, max = 255)
+    private String motto = "";
+
+    @Size(min = 1, max = 255)
+    private String logo = "";
+
+    @Valid
     private List<UserDTO> users;
 }

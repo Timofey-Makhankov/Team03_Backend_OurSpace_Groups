@@ -2,6 +2,10 @@ package com.example.demo.domain.group;
 
 import com.example.demo.domain.group.dto.GroupDTO;
 import com.example.demo.domain.group.dto.GroupMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +43,14 @@ public class GroupController {
      * @see GroupDTO
      * @since 1.0
      */
-    @GetMapping
+    @GetMapping({"", "/"})
     @PreAuthorize("hasAuthority('GROUP_READ_ALL')")
+    @Operation(
+            summary = "Get All Groups",
+            description = "This Endpoint returns all the groups in the database. This requires an authenticated user" +
+                    " using JWT token. This can be accessed with the authority 'group_read_all'",
+            security = {@SecurityRequirement(name = "bearer-key")}
+    )
     public ResponseEntity<List<GroupDTO>> getAllGroups() {
         return ResponseEntity.ok().body(groupMapper.toDTOs(groupService.findAll()));
     }
@@ -56,6 +66,12 @@ public class GroupController {
      */
     @GetMapping(path = "/{id}")
     @PreAuthorize("hasAuthority('GROUP_READ') or @userPermissionEvaluator.isInGroup(authentication.principal.user, id)")
+    @Operation(
+            summary = "Get a Group by id",
+            description = "get a groupDTO by id. This requires an authenticated user using JWT token. This can be" +
+                    " accessed by the authority 'group_read' or the client belongs to that group",
+            security = {@SecurityRequirement(name = "bearer-key")}
+    )
     public ResponseEntity<GroupDTO> getGroupById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok().body(groupMapper.toDTO(groupService.findById(id)));
     }
@@ -71,6 +87,12 @@ public class GroupController {
      */
     @PostMapping
     @PreAuthorize("hasAuthority('GROUP_CREATE')")
+    @Operation(
+            summary = "Create a new group",
+            description = "Create a new group. This requires an authenticated user using JWT token. It can only be" +
+                    " accessed with the authority 'group_create'",
+            security = {@SecurityRequirement(name = "bearer-key")}
+    )
     public ResponseEntity<GroupDTO> createGroup(@RequestBody GroupDTO group) {
         return ResponseEntity.status(HttpStatus.CREATED).body(groupMapper.toDTO(groupService.save(groupMapper.fromDTO(group))));
     }
@@ -83,6 +105,12 @@ public class GroupController {
      */
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasAuthority('GROUP_DELETE')")
+    @Operation(
+            summary = "Delete a Group",
+            description = "Delete a given Group by its id. This requires an authenticated user using JWT token. It can" +
+                    " only be accessed with authority 'group_delete'",
+            security = {@SecurityRequirement(name = "bearer-key")}
+    )
     public void deleteGroup(@PathVariable("id") UUID id) {
         groupService.deleteById(id);
     }
@@ -97,6 +125,12 @@ public class GroupController {
      */
     @PutMapping(path = "/{id}")
     @PreAuthorize("hasAuthority('GROUP_MODIFY')")
+    @Operation(
+            summary = "Update a Group",
+            description = "Update a Group by Id. This requires an authenticated user using JWT token. It can only be " +
+                    "accessed with 'group_modify'",
+            security = {@SecurityRequirement(name = "bearer-key")}
+    )
     public ResponseEntity<GroupDTO> updateGroup(@PathVariable("id") UUID id, @RequestBody GroupDTO group) {
         return ResponseEntity.ok().body(groupMapper.toDTO(groupService.updateById(id, groupMapper.fromDTO(group))));
     }

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -53,6 +55,12 @@ public class UserController {
      */
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('USER_READ') or @userPermissionEvaluator.isSameUser(authentication.principal.user, id)")
+    @Operation(
+            summary = "Get User by Id",
+            description = "Get a User by its id. This requires an authenticated user using JWT token. It can only be" +
+                    " accessed with authority 'user_read' or it belongs to the user that was requested by",
+            security = {@SecurityRequirement(name = "bearer-key")}
+    )
     public ResponseEntity<UserDTO> retrieveById(@Valid @PathVariable UUID id) {
         User user = userService.findById(id);
         return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.OK);
@@ -68,6 +76,12 @@ public class UserController {
      */
     @GetMapping({"", "/"})
     @PreAuthorize("hasAuthority('USER_READ')")
+    @Operation(
+            summary = "Get all users",
+            description = "Get a list of users. This requires an authenticated user using JWT token. It can only be " +
+                    "accessed with the authority 'user_read'",
+            security = {@SecurityRequirement(name = "bearer-key")}
+    )
     public ResponseEntity<List<UserDTO>> retrieveAll() {
         List<User> users = userService.findAll();
         return new ResponseEntity<>(userMapper.toDTOs(users), HttpStatus.OK);
@@ -89,6 +103,13 @@ public class UserController {
      */
     @GetMapping("/group/{id}")
     @PreAuthorize("hasAuthority('GROUP_READ') or @userPermissionEvaluator.isInGroup(authentication.principal.user, #id)")
+    @Operation(
+            summary = "Get all members from a Group with group id",
+            description = "This returns a list of users from a group by its id. This requires an authenticated user " +
+                    "using JWT token. It requires parameters as well. It can only be accessed with the authority " +
+                    "'group_read' or a user from that group",
+            security = {@SecurityRequirement(name = "bearer-key")}
+    )
     public ResponseEntity<List<UserDTO>> getMembersFromGroupId(
             @PathVariable("id") UUID id,
             @RequestParam(value = "p") @NumberFormat @PositiveOrZero Integer page,
@@ -108,6 +129,10 @@ public class UserController {
      * @since 1.0
      */
     @PostMapping("/register")
+    @Operation(
+            summary = "Register a new User",
+            description = "Register a new User. This does not require any authentication"
+    )
     public ResponseEntity<UserDTO> register(@Valid @RequestBody UserRegisterDTO userRegisterDTO) {
         User user = userService.register(userMapper.fromUserRegisterDTO(userRegisterDTO));
         return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.CREATED);
@@ -123,6 +148,10 @@ public class UserController {
      * @since 1.0
      */
     @PostMapping("/registerUser")
+    @Operation(
+            summary = "Register a new User with password",
+            description = "Register a new User with a newly generated password. This does not require any authentication"
+    )
     public ResponseEntity<UserDTO> registerWithoutPassword(@Valid @RequestBody UserDTO userDTO) {
         User user = userService.registerUser(userMapper.fromDTO(userDTO));
         return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.CREATED);
@@ -141,6 +170,12 @@ public class UserController {
     @PutMapping("/{id}")
     @PreAuthorize(
             "hasAuthority('USER_MODIFY') or @userPermissionEvaluator.isSameUser(authentication.principal.user, userDTO)")
+    @Operation(
+            summary = "Update a User",
+            description = "Update a User with a given id. This requires an authenticated user using JWT token. This can" +
+                    " only be accessed with the authority 'user_modify' or by the same user who requested it",
+            security = {@SecurityRequirement(name = "bearer-key")}
+    )
     public ResponseEntity<UserDTO> updateById(@PathVariable UUID id, @Valid @RequestBody UserDTO userDTO) {
         User user = userService.updateById(id, userMapper.fromDTO(userDTO));
         return new ResponseEntity<>(userMapper.toDTO(user), HttpStatus.OK);
@@ -156,6 +191,12 @@ public class UserController {
      */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('USER_DELETE') or @userPermissionEvaluator.isSameUser(authentication.principal.user, id)")
+    @Operation(
+            summary = "Delete a User",
+            description = "Delete a User with the given id. This requires an authenticated user using JWT token. This " +
+                    "can only be accessed with the authority 'user_delete' or by the same user, who requested it",
+            security = {@SecurityRequirement(name = "bearer-key")}
+    )
     public ResponseEntity<Void> deleteById(@PathVariable UUID id) {
         userService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

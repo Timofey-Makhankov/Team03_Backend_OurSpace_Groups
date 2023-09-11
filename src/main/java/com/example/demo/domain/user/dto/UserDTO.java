@@ -26,16 +26,16 @@ import org.hibernate.validator.constraints.Length;
 public class UserDTO extends AbstractDTO {
 
     @NotBlank
-    @Length(max = 255)
+    @Length(min = 1, max = 255)
     private String firstName;
 
     @NotBlank
-    @Length(max = 255)
+    @Length(min = 1, max = 255)
     private String lastName;
 
     @Email
     @NotBlank
-    @Length(max = 255)
+    @Length(min = 1, max = 255)
     private String email;
 
     @Valid
@@ -45,6 +45,6 @@ public class UserDTO extends AbstractDTO {
     private UUID group_id;
 
     @NotNull
-    @Length(max = 255)
+    @Length(min = 1, max = 255)
     private String group_name;
 }

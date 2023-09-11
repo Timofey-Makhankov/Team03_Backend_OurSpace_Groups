@@ -20,7 +20,7 @@ public class Group extends AbstractEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 512)
     private String description;
 
     @Column(name = "motto")
