@@ -12,8 +12,20 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+
+/**
+ * This class creates the service for the Group Model
+ * @since 1.0
+ * @author Timofey
+ */
 @Service
 public class GroupService extends AbstractServiceImpl<Group> {
+    /**
+     * The Default constructor for the GroupService class
+     * @param repository that inherits from AbstractRepository
+     * @since 1.0
+     * @author Timofey
+     */
     public GroupService(AbstractRepository<Group> repository) {
         super(repository);
     }

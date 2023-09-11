@@ -14,6 +14,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+/**
+ * This is the User Entity that extends AbstractEntity
+ * @version  1.0
+ * @author Timofey
+ */
 @Entity
 @Getter
 @Setter

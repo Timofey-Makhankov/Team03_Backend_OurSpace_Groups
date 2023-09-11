@@ -29,6 +29,9 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.trace("trying to load User by username");
@@ -37,16 +40,22 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
                 .orElseThrow(() -> new UsernameNotFoundException(email));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public User register(User user) {
         log.trace("trying to register a new user");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        var savedUser =  save(user);
+        var savedUser = save(user);
         log.debug("registered a new user");
         return savedUser;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public User registerUser(User user) {
@@ -57,6 +66,9 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
         return savedUser;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<User> getAllUsersByGroupId(UUID id, Pageable pageable) {
         log.trace("trying to find all members from group");
@@ -65,6 +77,12 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
         return result;
     }
 
+    /**
+     * Generates a stream of random characters from a count
+     *
+     * @param count amount of characters
+     * @return a Stream of characters
+     */
     public Stream<Character> getRandomSpecialChars(int count) {
         Random random = new SecureRandom();
         IntStream specialChars = random.ints(count, 33, 45);

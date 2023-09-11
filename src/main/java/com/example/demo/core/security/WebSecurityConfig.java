@@ -42,11 +42,15 @@ public class WebSecurityConfig {
         this.userMapper = userMapper;
     }
 
-    @Bean
+    @Bean // This is the security filter chain for backend
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(
-                        requests -> requests.requestMatchers(HttpMethod.POST, "/user/login", "/user/register").permitAll()
+                        requests -> requests
+                                // The login and register endpoint is available to everyone with the POST Method
+                                .requestMatchers(HttpMethod.POST, "/user/login", "/user/register").permitAll()
+                                // The Swagger Documentation is for everyone available
                                 .requestMatchers(HttpMethod.GET, "/v3/api-docs", "/v3/api-docs/swagger-config", "/swagger-ui/*").permitAll()
+                                // any other request should be authenticated with the JWT token
                                 .anyRequest().authenticated()
                 )
                 .addFilterAfter(new JWTAuthenticationFilter(new AntPathRequestMatcher("/user/login", "POST"),
@@ -59,7 +63,7 @@ public class WebSecurityConfig {
                 .build();
     }
 
-    @Bean
+    @Bean // The CORS Configuration for the backend
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*"));
