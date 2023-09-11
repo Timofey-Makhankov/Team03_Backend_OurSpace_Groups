@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @param <T> The Entity that extends AbstractEntity
  * @author Timofey
+ * @see AbstractService
  * @since 1.0
  */
 @Log4j2
