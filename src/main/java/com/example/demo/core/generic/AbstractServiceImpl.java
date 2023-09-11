@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 @Log4j2
 @AllArgsConstructor
@@ -17,11 +18,13 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity> implements A
   protected final AbstractRepository<T> repository;
 
   @Override
+  @Transactional
   public T save(T entity) {
     return repository.save(entity);
   }
 
   @Override
+  @Transactional
   public void deleteById(UUID id) throws NoSuchElementException {
     if (repository.existsById(id)) {
       repository.deleteById(id);
@@ -31,6 +34,7 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity> implements A
   }
 
   @Override
+  @Transactional
   public T updateById(UUID id, T entity) throws NoSuchElementException {
     if (repository.existsById(id)) {
       entity.setId(id);
@@ -60,6 +64,4 @@ public abstract class AbstractServiceImpl<T extends AbstractEntity> implements A
   public boolean existsById(UUID id) {
     return repository.existsById(id);
   }
-
-
 }

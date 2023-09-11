@@ -14,7 +14,6 @@ import java.util.UUID;
 
 @Service
 public class GroupService extends AbstractServiceImpl<Group> {
-
     public GroupService(AbstractRepository<Group> repository) {
         super(repository);
     }

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -37,6 +38,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
     }
 
     @Override
+    @Transactional
     public User register(User user) {
         log.trace("trying to register a new user");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -46,6 +48,7 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
     }
 
     @Override
+    @Transactional
     public User registerUser(User user) {
         log.trace("trying to register a new user");
         user.setPassword(getRandomSpecialChars(20).toString());
