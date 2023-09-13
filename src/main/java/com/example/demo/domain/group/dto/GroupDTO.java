@@ -34,6 +34,5 @@ public class GroupDTO extends AbstractDTO {
     @Size(min = 1, max = 255)
     private String logo = "";
 
-    @Valid
     private List<UserDTO> users;
 }

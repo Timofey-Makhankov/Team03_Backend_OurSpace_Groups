@@ -533,6 +533,138 @@
 					"response": []
 				},
 				{
+					"name": "See a set of paged groups members",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/group/4173b16c-6124-49c0-a29f-254dca05e5fe?p=0&i=5",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"group",
+								"4173b16c-6124-49c0-a29f-254dca05e5fe"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "0"
+								},
+								{
+									"key": "i",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "I set to 0 Group paging",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(\"amount: must be greater than 0\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/group/4173b16c-6124-49c0-a29f-254dca05e5fe?p=0&i=0",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"group",
+								"4173b16c-6124-49c0-a29f-254dca05e5fe"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "0"
+								},
+								{
+									"key": "i",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "P set to -1 Group paging Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"page: must be greater than or equal to 0\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/group/4173b16c-6124-49c0-a29f-254dca05e5fe?p=-1&i=5",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"group",
+								"4173b16c-6124-49c0-a29f-254dca05e5fe"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "-1"
+								},
+								{
+									"key": "i",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create a new Group",
 					"event": [
 						{
@@ -557,7 +689,43 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"{{$randomCompanyName}}\",\r\n  \"description\": \"{{$randomNoun}}\",\r\n  \"motto\": \"{{$randomNoun}}\",\r\n  \"logo\": \"\",\r\n  \"users\": []\r\n}",
+							"raw": "{\r\n  \"name\": \"{{$randomNoun}}\",\r\n  \"description\": \"{{$randomNoun}}\",\r\n  \"motto\": \"{{$randomNoun}}\",\r\n  \"logo\": \"{{$randomImageUrl}}\",\r\n  \"users\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}group",
+							"host": [
+								"{{url}}group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Email in Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"\",\r\n  \"description\": \"{{$randomNoun}}\",\r\n  \"motto\": \"{{$randomNoun}}\",\r\n  \"logo\": \"${{$randomImageUrl}}\",\r\n  \"users\": []\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -629,7 +797,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"503dc99a-f9dc-4295-8701-959c5c10c493\",\r\n    \"name\": \"Stark - Ruecker\",\r\n    \"description\": \"circuit\",\r\n    \"motto\": \"${{$randomBankAccountName}}\",\r\n    \"logo\": \"\",\r\n    \"users\": []\r\n}",
+							"raw": "{\r\n    \"id\": \"503dc99a-f9dc-4295-8701-959c5c10c493\",\r\n    \"name\": \"Stark - Ruecker\",\r\n    \"description\": \"circuit\",\r\n    \"motto\": \"${{$randomBankAccountName}}\",\r\n    \"logo\": \"${{$randomImageUrl}}\",\r\n    \"users\": []\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1174,6 +1342,48 @@
 							],
 							"path": [
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Email on register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(\"must be a well-formed email address\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Timofey\",\r\n    \"lastName\": \"Makhankov\",\r\n    \"email\": \"asd.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/register",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"register"
 							]
 						}
 					},

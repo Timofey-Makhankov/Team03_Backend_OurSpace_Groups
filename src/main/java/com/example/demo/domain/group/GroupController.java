@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -93,7 +94,7 @@ public class GroupController {
                     " accessed with the authority 'group_create'",
             security = {@SecurityRequirement(name = "bearer-key")}
     )
-    public ResponseEntity<GroupDTO> createGroup(@RequestBody GroupDTO group) {
+    public ResponseEntity<GroupDTO> createGroup(@RequestBody @Valid GroupDTO group) {
         return ResponseEntity.status(HttpStatus.CREATED).body(groupMapper.toDTO(groupService.save(groupMapper.fromDTO(group))));
     }
 
@@ -132,7 +133,7 @@ public class GroupController {
                     "accessed with 'group_modify'",
             security = {@SecurityRequirement(name = "bearer-key")}
     )
-    public ResponseEntity<GroupDTO> updateGroup(@PathVariable("id") UUID id, @RequestBody GroupDTO group) {
+    public ResponseEntity<GroupDTO> updateGroup(@PathVariable("id") UUID id, @Valid @RequestBody GroupDTO group) {
         return ResponseEntity.ok().body(groupMapper.toDTO(groupService.updateById(id, groupMapper.fromDTO(group))));
     }
 

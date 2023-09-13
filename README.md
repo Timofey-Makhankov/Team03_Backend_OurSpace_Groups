@@ -45,3 +45,8 @@ If it tells you, that port 8080 is in use. It might help to disable Mobile Hotsp
 org.postgresql.util.PSQLException: ERROR: relation "role_authority" does not exist
 ```
 Simply restart the application. Hibernate sometimes does not initialize the tables fast enough an causes this error. restarting the application fixes this.
+
+### Testing - Postman
+
+You can find the collection and the environment in the repo under the "pm" folder. import both json files and after running springboot, you can run the "Testing Suit Folder"
+
