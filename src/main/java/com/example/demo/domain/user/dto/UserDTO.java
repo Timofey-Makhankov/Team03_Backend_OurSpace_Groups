@@ -41,10 +41,7 @@ public class UserDTO extends AbstractDTO {
     @Valid
     private Set<RoleDTO> roles;
 
-    //@NotNull
     private UUID group_id;
 
-    //@NotNull
-    //@Length(min = 1, max = 255)
     private String group_name;
 }

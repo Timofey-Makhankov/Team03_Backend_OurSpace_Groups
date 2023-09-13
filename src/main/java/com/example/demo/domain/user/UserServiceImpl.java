@@ -23,14 +23,12 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
 
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
-    private final GroupService groupService;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, RoleService roleService, GroupService groupService) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, RoleService roleService) {
         super(repository);
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
-        this.groupService = groupService;
     }
 
     /**
@@ -102,7 +100,6 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
     public User updateById(UUID id, User entity) throws NoSuchElementException {
         log.trace("trying to update a user with id: " + id);
         var result = repository.findById(id).orElseThrow();
-        //var group = groupService.findById(entity.get);
         entity.setPassword(result.getPassword());
         entity.setGroup(result.getGroup());
         var user = repository.save(entity);

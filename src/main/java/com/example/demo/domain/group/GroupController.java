@@ -104,6 +104,7 @@ public class GroupController {
      * @since 1.0
      */
     @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('GROUP_DELETE')")
     @Operation(
             summary = "Delete a Group",
