@@ -65,7 +65,7 @@ public class GroupController {
      * @since 1.0
      */
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasAuthority('GROUP_READ') or @userPermissionEvaluator.isInGroup(authentication.principal.user, id)")
+    @PreAuthorize("hasAuthority('GROUP_READ') or @userPermissionEvaluator.isInGroup(authentication.principal.user, #id)")
     @Operation(
             summary = "Get a Group by id",
             description = "get a groupDTO by id. This requires an authenticated user using JWT token. This can be" +

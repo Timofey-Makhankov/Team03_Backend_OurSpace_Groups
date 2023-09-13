@@ -54,7 +54,7 @@ public class UserController {
      * @since 1.0
      */
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('USER_READ') or @userPermissionEvaluator.isSameUser(authentication.principal.user, id)")
+    @PreAuthorize("hasAuthority('USER_READ') or @userPermissionEvaluator.isSameUser(authentication.principal.user, #id)")
     @Operation(
             summary = "Get User by Id",
             description = "Get a User by its id. This requires an authenticated user using JWT token. It can only be" +
@@ -168,7 +168,7 @@ public class UserController {
      */
     @PutMapping("/{id}")
     @PreAuthorize(
-            "hasAuthority('USER_MODIFY') or @userPermissionEvaluator.isSameUser(authentication.principal.user, userDTO)")
+            "hasAuthority('USER_MODIFY') or @userPermissionEvaluator.isSameUser(authentication.principal.user, #userDTO)")
     @Operation(
             summary = "Update a User",
             description = "Update a User with a given id. This requires an authenticated user using JWT token. This can" +
@@ -189,7 +189,7 @@ public class UserController {
      * @since 1.0
      */
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('USER_DELETE') or @userPermissionEvaluator.isSameUser(authentication.principal.user, id)")
+    @PreAuthorize("hasAuthority('USER_DELETE') or @userPermissionEvaluator.isSameUser(authentication.principal.user, #id)")
     @Operation(
             summary = "Delete a User",
             description = "Delete a User with the given id. This requires an authenticated user using JWT token. This " +
