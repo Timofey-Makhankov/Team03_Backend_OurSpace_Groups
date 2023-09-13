@@ -56,7 +56,7 @@ VALUES ('d29e709c-0ff1-4f4c-a7ef-09f656c390f1', '2ebf301e-6c61-4076-98e3-2a38b31
        ('c6aee32d-8c35-4481-8b3e-a876a39b0c02', 'aa04799f-35c7-48bc-94b0-c156b8802969'), -- USER    - GROUP_READ_ALL
        ('ab505c92-7280-49fd-a7de-258e618df074', '76d2cbf6-5845-470e-ad5f-2edb9e09a868'), -- ADMIN   - USER_MODIFY
        ('ab505c92-7280-49fd-a7de-258e618df074', '21c942db-a275-43f8-bdd6-d048c21bf5ab'), -- ADMIN   - USER_DELETE
-       ('ab505c92-7280-49fd-a7de-258e618df074', '64030c3a-c260-453c-847f-a46950a6ac21'), -- ADMIN   - USER_READ
+       ('ab505c92-7280-49fd-a7de-258e618df074', 'd5866d24-d7d2-4b1e-9b4c-dc8b0c8d4bd7'), -- ADMIN   - USER_READ
        ('ab505c92-7280-49fd-a7de-258e618df074', '45ba7560-8459-4ae6-8edf-ffe204c7ddc3'), -- ADMIN   - GROUP_MODIFY
        ('ab505c92-7280-49fd-a7de-258e618df074', '64030c3a-c260-453c-847f-a46950a6ac21'), -- ADMIN   - GROUP_READ
        ('ab505c92-7280-49fd-a7de-258e618df074', 'aa04799f-35c7-48bc-94b0-c156b8802969'), -- ADMIN   - GROUP_READ_ALL

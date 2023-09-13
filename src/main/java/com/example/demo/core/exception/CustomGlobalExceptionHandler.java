@@ -97,15 +97,6 @@ public class CustomGlobalExceptionHandler {
                 .build();
     }
 
-    @ExceptionHandler({RuntimeException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseError handleRuntimeException(Throwable e) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put("runtimeException", e.getMessage());
-        return new ResponseError().setTimeStamp(LocalDate.now())
-                .setErrors(errors)
-                .build();
-    }
 
 }
 

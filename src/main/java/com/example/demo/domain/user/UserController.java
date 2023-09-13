@@ -143,7 +143,6 @@ public class UserController {
      *
      * @param userDTO User Information
      * @return created User with newly generated password
-     * TODO figure out why register without password, even though in the implementation it is generated
      * @see UserDTO
      * @since 1.0
      */
