@@ -3,15 +3,15 @@ package com.example.demo.domain.user.dto;
 
 import com.example.demo.core.generic.AbstractMapper;
 import com.example.demo.domain.group.Group;
+import com.example.demo.domain.group.GroupService;
+import com.example.demo.domain.user.AbstractUserMapper;
 import com.example.demo.domain.user.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+//@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper extends AbstractMapper<User, UserDTO> {
     User fromUserRegisterDTO(UserRegisterDTO dto);
 
@@ -20,13 +20,7 @@ public interface UserMapper extends AbstractMapper<User, UserDTO> {
     @Mapping(source = "group", target = "group_name", qualifiedByName = "nameFromGroup")
     UserDTO toDTO(User user);
 
-    @Named("idFromGroup")
-    default UUID idFromGroup(Group group) {
-        return group.getId();
-    }
-
-    @Named("nameFromGroup")
-    default String nameFromGroup(Group group) {
-        return group.getName();
-    }
+    @Override
+    @Mapping(source = "group_id", target = "group", qualifiedByName = "groupFromId")
+    User fromDTO(UserDTO dto);
 }

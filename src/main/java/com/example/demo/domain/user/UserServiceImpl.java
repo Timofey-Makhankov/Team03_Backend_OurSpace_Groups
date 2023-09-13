@@ -1,6 +1,8 @@
 package com.example.demo.domain.user;
 
 import com.example.demo.core.generic.AbstractServiceImpl;
+import com.example.demo.domain.group.GroupService;
+import com.example.demo.domain.role.RoleService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -11,9 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -22,11 +22,15 @@ import java.util.stream.Stream;
 public class UserServiceImpl extends AbstractServiceImpl<User> implements UserService {
 
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
+    private final GroupService groupService;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder, RoleService roleService, GroupService groupService) {
         super(repository);
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
+        this.groupService = groupService;
     }
 
     /**
@@ -48,6 +52,8 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
     public User register(User user) {
         log.trace("trying to register a new user");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        var role = roleService.findByName("USER");
+        user.setRoles(new HashSet<>(Collections.singletonList(role)));
         var savedUser = save(user);
         log.debug("registered a new user");
         return savedUser;
@@ -61,6 +67,8 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
     public User registerUser(User user) {
         log.trace("trying to register a new user");
         user.setPassword(getRandomSpecialChars(20).toString());
+        var role = roleService.findByName("USER");
+        user.setRoles(new HashSet<>(Collections.singletonList(role)));
         var savedUser = save(user);
         log.debug("registered a new user with random character");
         return savedUser;
@@ -89,4 +97,16 @@ public class UserServiceImpl extends AbstractServiceImpl<User> implements UserSe
         return specialChars.mapToObj(data -> (char) data);
     }
 
+    @Override
+    @Transactional
+    public User updateById(UUID id, User entity) throws NoSuchElementException {
+        log.trace("trying to update a user with id: " + id);
+        var result = repository.findById(id).orElseThrow();
+        //var group = groupService.findById(entity.get);
+        entity.setPassword(result.getPassword());
+        entity.setGroup(result.getGroup());
+        var user = repository.save(entity);
+        log.debug("updated user");
+        return user;
+    }
 }

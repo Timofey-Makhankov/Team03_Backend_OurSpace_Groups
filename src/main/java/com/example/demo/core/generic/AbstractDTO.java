@@ -12,7 +12,5 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class AbstractDTO {
-
   private UUID id;
-
 }

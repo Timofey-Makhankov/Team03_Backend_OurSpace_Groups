@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "groups")
 public class Group extends AbstractEntity {
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name"/*, nullable = false*/)
     private String name;
 
     @Column(name = "description", length = 512)
