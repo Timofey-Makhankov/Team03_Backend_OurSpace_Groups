@@ -1,4 +1,4 @@
-# üK 233 Backend & Database
+# üK 223 Backend & Database
 
 This is the backend Repo of the Project. We are using Springboot and Java as our primary Language. The Database is a docker image with the default configurations. The Testing will be done with postman, a HTTP Request Client.
 
