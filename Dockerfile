@@ -14,6 +14,6 @@ RUN apk --no-cache add curl
 EXPOSE 8080
 
 HEALTHCHECK --interval=3s --timeout=5s \
-    CMD curl -fI localhost:8080 || exit 1
+    CMD curl -f localhost:8080/v3/api-docs || exit 1
 
 CMD ["java", "-jar", "-Xmx4g", "/app/spring-boot-application.jar"]
