@@ -10,6 +10,6 @@ RUN mkdir "/app"
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
 EXPOSE 8080
 HEALTHCHECK --interval=3s --timeout=5s \
-    CMD ping -c http://localhost:8080
+    CMD ping -c 4 localhost -p 8080
 
 CMD ["java", "-jar", "-Xmx4g", "/app/spring-boot-application.jar"]
