@@ -8,8 +8,12 @@ RUN gradle --no-daemon bootJar
 FROM openjdk:17-alpine
 RUN mkdir "/app"
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
+
+RUN apk --no-cache add curl
+
 EXPOSE 8080
+
 HEALTHCHECK --interval=3s --timeout=5s \
-    CMD ping -c 1 localhost:8080
+    CMD curl -fI localhost:8080 || exit 1
 
 CMD ["java", "-jar", "-Xmx4g", "/app/spring-boot-application.jar"]
