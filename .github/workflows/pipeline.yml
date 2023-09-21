@@ -3,7 +3,7 @@ name: deploy-backend
 on: [push]
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,3 +25,30 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-application:latest
+
+  Deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Start Script
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: ./start.sh
+
+  Testing:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: postman test
+        uses: matt-ball/newman-action@master
+        with:
+          collection: ./pm/postman_test.json
+          environment: ./pm/postman_environment.json
+          delayRequest: 150
