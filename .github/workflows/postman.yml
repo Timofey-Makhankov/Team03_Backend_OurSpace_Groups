@@ -1,0 +1,18 @@
+name: Postman testing
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Test
+        uses: matt-ball/newman-action@master
+        with:
+          collection: ./pm/postman_test.json
+          environment: ./pm/postman_environment.json
+          delayRequest: 150
