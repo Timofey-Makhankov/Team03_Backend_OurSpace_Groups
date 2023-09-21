@@ -1,0 +1,1131 @@
+{
+	"info": {
+		"_postman_id": "297e5c60-8a03-420e-9d65-bc4f38f33776",
+		"name": "Testing Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29643863"
+	},
+	"item": [
+		{
+			"name": "Testing Suite",
+			"item": [
+				{
+					"name": "Login as an Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"token\", pm.response.headers.get(\"Authorization\").substring(7));\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@example.com\",\r\n    \"password\": 1234\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/login",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "be able to see all users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user",
+							"host": [
+								"{{url}}user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "be able to see his own info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/ba804cb9-fa14-42a5-afaf-be488742fc54",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"ba804cb9-fa14-42a5-afaf-be488742fc54"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "be able to see a diffrent user info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/0d8fa44c-54fd-4cd0-ace9-2a7da57992de",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"0d8fa44c-54fd-4cd0-ace9-2a7da57992de"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update admin info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"ba804cb9-fa14-42a5-afaf-be488742fc54\",\r\n    \"firstName\": \"James\",\r\n    \"lastName\": \"Richard\",\r\n    \"email\": \"admin@example.com\",\r\n    \"roles\": [\r\n        {\r\n            \"id\": \"c6aee32d-8c35-4481-8b3e-a876a39b0c02\",\r\n            \"name\": \"USER\",\r\n            \"authorities\": [\r\n                {\r\n                    \"id\": \"aa04799f-35c7-48bc-94b0-c156b8802969\",\r\n                    \"name\": \"GROUP_READ_ALL\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"ab505c92-7280-49fd-a7de-258e618df074\",\r\n            \"name\": \"ADMIN\",\r\n            \"authorities\": [\r\n                {\r\n                    \"id\": \"21c942db-a275-43f8-bdd6-d048c21bf5ab\",\r\n                    \"name\": \"USER_DELETE\"\r\n                },\r\n                {\r\n                    \"id\": \"d5866d24-d7d2-4b1e-9b4c-dc8b0c8d4bd7\",\r\n                    \"name\": \"USER_READ\"\r\n                },\r\n                {\r\n                    \"id\": \"430f4ad9-55cc-4cc4-a182-24a829de36e0\",\r\n                    \"name\": \"GROUP_DELETE\"\r\n                },\r\n                {\r\n                    \"id\": \"76d2cbf6-5845-470e-ad5f-2edb9e09a868\",\r\n                    \"name\": \"USER_MODIFY\"\r\n                },\r\n                {\r\n                    \"id\": \"aa04799f-35c7-48bc-94b0-c156b8802969\",\r\n                    \"name\": \"GROUP_READ_ALL\"\r\n                },\r\n                {\r\n                    \"id\": \"82e779f6-21fd-49df-84b4-c01f00766eff\",\r\n                    \"name\": \"GROUP_CREATE\"\r\n                },\r\n                {\r\n                    \"id\": \"45ba7560-8459-4ae6-8edf-ffe204c7ddc3\",\r\n                    \"name\": \"GROUP_MODIFY\"\r\n                },\r\n                {\r\n                    \"id\": \"64030c3a-c260-453c-847f-a46950a6ac21\",\r\n                    \"name\": \"GROUP_READ\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"d29e709c-0ff1-4f4c-a7ef-09f656c390f1\",\r\n            \"name\": \"DEFAULT\",\r\n            \"authorities\": [\r\n                {\r\n                    \"id\": \"2ebf301e-6c61-4076-98e3-2a38b31daf86\",\r\n                    \"name\": \"DEFAULT\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"group_id\": \"4173b16c-6124-49c0-a29f-254dca05e5fe\",\r\n    \"group_name\": \"Photography Group\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/ba804cb9-fa14-42a5-afaf-be488742fc54",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"ba804cb9-fa14-42a5-afaf-be488742fc54"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Be able to see all Groups",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}group",
+							"host": [
+								"{{url}}group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "See a set of paged groups members",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/group/4173b16c-6124-49c0-a29f-254dca05e5fe?p=0&i=5",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"group",
+								"4173b16c-6124-49c0-a29f-254dca05e5fe"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "0"
+								},
+								{
+									"key": "i",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "I set to 0 Group paging",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(\"amount: must be greater than 0\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/group/4173b16c-6124-49c0-a29f-254dca05e5fe?p=0&i=0",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"group",
+								"4173b16c-6124-49c0-a29f-254dca05e5fe"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "0"
+								},
+								{
+									"key": "i",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "P set to -1 Group paging Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"page: must be greater than or equal to 0\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/group/4173b16c-6124-49c0-a29f-254dca05e5fe?p=-1&i=5",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"group",
+								"4173b16c-6124-49c0-a29f-254dca05e5fe"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "-1"
+								},
+								{
+									"key": "i",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"group_id\", pm.response.json().id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{$randomNoun}}\",\r\n  \"description\": \"{{$randomNoun}}\",\r\n  \"motto\": \"{{$randomNoun}}\",\r\n  \"logo\": \"{{$randomImageUrl}}\",\r\n  \"users\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}group",
+							"host": [
+								"{{url}}group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Email in Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"\",\r\n  \"description\": \"{{$randomNoun}}\",\r\n  \"motto\": \"{{$randomNoun}}\",\r\n  \"logo\": \"${{$randomImageUrl}}\",\r\n  \"users\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}group",
+							"host": [
+								"{{url}}group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "See the newly created group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}group/{{group_id}}",
+							"host": [
+								"{{url}}group"
+							],
+							"path": [
+								"{{group_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update the new group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"503dc99a-f9dc-4295-8701-959c5c10c493\",\r\n    \"name\": \"Stark - Ruecker\",\r\n    \"description\": \"circuit\",\r\n    \"motto\": \"${{$randomBankAccountName}}\",\r\n    \"logo\": \"${{$randomImageUrl}}\",\r\n    \"users\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}group/{{group_id}}",
+							"host": [
+								"{{url}}group"
+							],
+							"path": [
+								"{{group_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "See the updated Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}group/{{group_id}}",
+							"host": [
+								"{{url}}group"
+							],
+							"path": [
+								"{{group_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete newly generated Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type is not present\", function () {\r",
+									"    pm.response.to.not.have.header(\"Content-Type\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}group/{{group_id}}",
+							"host": [
+								"{{url}}group"
+							],
+							"path": [
+								"{{group_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as a user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"token\", pm.response.headers.get(\"Authorization\").substring(7));\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@example.com\",\r\n    \"password\": 1234\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/login",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "try to get all users info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user",
+							"host": [
+								"{{url}}user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get his own User info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/0d8fa44c-54fd-4cd0-ace9-2a7da57992de",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"0d8fa44c-54fd-4cd0-ace9-2a7da57992de"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get info from diff. User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/ba804cb9-fa14-42a5-afaf-be488742fc54",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"ba804cb9-fa14-42a5-afaf-be488742fc54"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update his own information",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"0d8fa44c-54fd-4cd0-ace9-2a7da57992de\",\r\n    \"firstName\": \"Tyler\",\r\n    \"lastName\": \"Pane\",\r\n    \"email\": \"user@example.com\",\r\n    \"roles\": [\r\n        {\r\n            \"id\": \"c6aee32d-8c35-4481-8b3e-a876a39b0c02\",\r\n            \"name\": \"USER\",\r\n            \"authorities\": [\r\n                {\r\n                    \"id\": \"aa04799f-35c7-48bc-94b0-c156b8802969\",\r\n                    \"name\": \"GROUP_READ_ALL\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"id\": \"d29e709c-0ff1-4f4c-a7ef-09f656c390f1\",\r\n            \"name\": \"DEFAULT\",\r\n            \"authorities\": [\r\n                {\r\n                    \"id\": \"2ebf301e-6c61-4076-98e3-2a38b31daf86\",\r\n                    \"name\": \"DEFAULT\"\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"group_id\": \"7116b118-de44-4fcb-8272-da0d9a51c9c8\",\r\n    \"group_name\": \"French Speaking Group\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/0d8fa44c-54fd-4cd0-ace9-2a7da57992de",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"0d8fa44c-54fd-4cd0-ace9-2a7da57992de"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "See his updated info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/0d8fa44c-54fd-4cd0-ace9-2a7da57992de",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"0d8fa44c-54fd-4cd0-ace9-2a7da57992de"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "try to get members from other group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/group/4173b16c-6124-49c0-a29f-254dca05e5fe?p=0&i=5",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"group",
+								"4173b16c-6124-49c0-a29f-254dca05e5fe"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "0"
+								},
+								{
+									"key": "i",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get group members from his own group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}user/group/7116b118-de44-4fcb-8272-da0d9a51c9c8?p=0&i=5",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"group",
+								"7116b118-de44-4fcb-8272-da0d9a51c9c8"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "0"
+								},
+								{
+									"key": "i",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "See a different Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}group/4173b16c-6124-49c0-a29f-254dca05e5fe",
+							"host": [
+								"{{url}}group"
+							],
+							"path": [
+								"4173b16c-6124-49c0-a29f-254dca05e5fe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "See his own Group",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}group/7116b118-de44-4fcb-8272-da0d9a51c9c8",
+							"host": [
+								"{{url}}group"
+							],
+							"path": [
+								"7116b118-de44-4fcb-8272-da0d9a51c9c8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Regsiter a new User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"pm.test(\"Response has id\", function () {\r",
+									"    var responseJSON = pm.response.json();\r",
+									"    pm.expect(responseJSON).to.have.property('id');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Timofey\",\r\n    \"lastName\": \"Makhankov\",\r\n    \"email\": \"gg@g.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/register",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login newly created User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"\r",
+									"// Test to check if the response contains a Bearer Token in the header\r",
+									"pm.test(\"Valid Bearer Token is present\", function () {\r",
+									"    pm.response.headers.get(\"Authorization\").includes(\"Bearer\")\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"gg@g.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/login",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Email on register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Body is correct\", function () {\r",
+									"    pm.response.to.have.body(\"must be a well-formed email address\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Timofey\",\r\n    \"lastName\": \"Makhankov\",\r\n    \"email\": \"asd.com\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}user/register",
+							"host": [
+								"{{url}}user"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://timofey.uek.dev.noseryoung.ch:28013/",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
